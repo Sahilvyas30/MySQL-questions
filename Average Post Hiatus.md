@@ -18,3 +18,12 @@ Example Output:
 user_id	|days_between
 151652	|  2
 661093	|  21
+
+
+
+SELECT user_id, DATEDIFF(MAX(DATE(post_date)), MIN(DATE(post_date))) AS days_between
+FROM posts
+WHERE YEAR(post_date) = 2021
+GROUP BY user_id
+HAVING COUNT(user_id) >= 2;
+
