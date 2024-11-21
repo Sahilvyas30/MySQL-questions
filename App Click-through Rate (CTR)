@@ -22,6 +22,7 @@ app_id	|ctr
 123	    50.00
 234	    100.00
 answer ->>>
+1st way
 SELECT
   app_id,
   ROUND(100.0 *
@@ -30,4 +31,14 @@ SELECT
 FROM events
 WHERE year(timestamp) = 2022
 GROUP BY app_id;
-
+2nd way
+by using sum() and filter()
+SELECT
+  app_id,
+  ROUND(100.0 *
+    SUM(1) FILTER (WHERE event_type = 'click') /
+    SUM(1) FILTER (WHERE event_type = 'impression'), 2) AS ctr_app
+FROM events
+WHERE timestamp >= '2022-01-01' 
+  AND timestamp < '2023-01-01'
+GROUP BY app_id;
